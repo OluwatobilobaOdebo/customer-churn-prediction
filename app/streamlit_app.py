@@ -2,6 +2,14 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
+from pathlib import Path
+
+# -----------------------------
+# Paths (project root aware)
+# -----------------------------
+BASE_DIR = Path(__file__).resolve().parent.parent  # from app/ → project root
+MODEL_PATH = BASE_DIR / "models" / "churn_logreg.pkl"
+DATA_PATH = BASE_DIR / "data" / "processed" / "telco_churn_processed.csv"
 
 # -----------------------------
 # Page Config
@@ -14,14 +22,14 @@ st.set_page_config(
 # -----------------------------
 # Load Model
 # -----------------------------
-model = joblib.load("../models/churn_logreg.pkl")
+model = joblib.load(MODEL_PATH)
 
 # -----------------------------
 # Load Data
 # -----------------------------
 @st.cache_data
 def load_data():
-    return pd.read_csv("../data/processed/telco_churn_processed.csv")
+    return pd.read_csv(DATA_PATH)
 
 df = load_data()
 
